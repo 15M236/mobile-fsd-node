@@ -101,9 +101,9 @@ app.post('/users/login',async function(req,response){
 })
 
 app.delete('/delete/:id',async function(req, res){
-    const {id} = req.params;
+    // const {id} = req.params;
 
-    console.log(id);
+    console.log(req.params.id);
 
     const token = req.header("x-auth-token");
     console.log(token)
@@ -113,16 +113,18 @@ app.delete('/delete/:id',async function(req, res){
         .collection("session")
         .findOne({token : token});
 
-    console.log(userSession.isAdmin )
+    console.log(userSession.isAdmin)
+
     if(userSession && userSession.isAdmin ){
         const result = await client
         .db('mobiles-fsd')
         .collection("mobiles")
-        .deleteOne({_id: ObjectId(id)});
+        .deleteOne({_id: ObjectId(req.params.id)});
     res.send(result)
     }else {
         response.status(401).send({msg :"Invalid parameters"});
     }
     
 })
+
 app.listen(PORT, () => console.log(`app listening on ${PORT}`));
