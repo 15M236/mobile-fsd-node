@@ -27,7 +27,6 @@ async function genHashedPassword(password) {
     return hashedPassword;
 }
 const client = await createConnection();
-
 app.use(cors());
 app.use(express.json())
 app.get('/',function( req,res){
